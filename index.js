@@ -7,6 +7,8 @@ const app = express();
 const cors = require("cors");
 const PORT = process.env.port || 4000;
 const MONGO_URI = process.env.DB;
+const dotenv = require('dotenv')
+dotenv.config();
 
 
 app.use(
@@ -207,7 +209,7 @@ amazondata().catch(console.error);
 
 async function list(client) {
     await client.db("azn").collection("amazon").insertMany(datas);
-    await client.db("azn").collection("amazon").remove({});
+    // await client.db("azn").collection("amazon").remove({});
 }
 
 app.listen(PORT, function() {
