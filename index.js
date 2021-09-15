@@ -193,13 +193,12 @@ async function amazondata() {
     async function main() {
         try {
             let dbName = "amazon"
-            let client = await MongoClient.connect(url)
             await client.connect();
             console.log('Connected successfully to server');
             const db = client.db(dbName);
             const collection = db.collection('azn');
             await collection.deleteMany({})
-            const insertResult = await collection.insertMany(datas);
+            await collection.insertMany(datas);
         } catch (error) {
             console.log("error")
         } finally {
