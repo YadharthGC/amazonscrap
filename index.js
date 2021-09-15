@@ -6,7 +6,7 @@ const app = express();
 const {
     MongoClient
 } = require('mongodb');
-const url = 'mongodb+srv://yadharth:chitra@cluster0.ajdir.mongodb.net/amazon?retryWrites=true&w=majority';
+const url = 'mongodb+srv://yadharth:chitra@cluster0.ajdir.mongodb.net/azn?retryWrites=true&w=majority';
 const PORT = process.env.port || 3000;
 
 
