@@ -1,13 +1,12 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs/promises");
-const express = require("express");
-const cors = require("cors");
-const app = express();
 const {
     MongoClient
-} = require('mongodb');
-const url = 'mongodb+srv://yadharth:chitra@cluster0.ajdir.mongodb.net/azn?retryWrites=true&w=majority';
-const PORT = process.env.port || 3000;
+} = require("mongodb")
+const puppeteer = require("puppeteer");
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const PORT = process.env.port || 4000;
+const MONGO_URI = process.env.DB;
 
 
 app.use(
@@ -17,7 +16,7 @@ app.use(
 );
 app.use(express.json());
 
-
+const url = "mongodb+srv://yadharth:chitra@cluster0.ajdir.mongodb.net/azn?retryWrites=true&w=majority"
 
 async function amazondata() {
     const client = new MongoClient(url);
@@ -190,26 +189,26 @@ async function amazondata() {
 
     //  mongodb
 
-    async function main() {
-        try {
-            await client.connect();
-            await list(client)
-            console.log('Connected successfully to server');
-        } catch (error) {
-            console.log("error")
-        } finally {
-            client.close()
-        }
+
+    try {
+        await client.connect();
+        await list(client)
+        console.log('Connected successfully to server');
+    } catch (error) {
+        console.log("error")
+    } finally {
+        client.close()
     }
 
-    main().catch(console.error);
-    async function list(client) {
-        await client.db("azn").collection("amazon").deleteMany();
-        await client.db("azn").collection("amazon").insertMany(datas);
-    }
+
     await browser.close();
 }
-amazondata();
+amazondata().catch(console.error);
+
+async function list(client) {
+    await client.db("azn").collection("amazon").insertMany(datas);
+    await client.db("azn").collection("amazon").remove({});
+}
 
 app.listen(PORT, function() {
     console.log(`App is runnning Successfully in port ${PORT} ! `)
