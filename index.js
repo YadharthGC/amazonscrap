@@ -192,13 +192,9 @@ async function amazondata() {
 
     async function main() {
         try {
-            let dbName = "amazon"
             await client.connect();
+            await list(client)
             console.log('Connected successfully to server');
-            const db = client.db(dbName);
-            const collection = db.collection('azn');
-            await collection.deleteMany({})
-            await collection.insertMany(datas);
         } catch (error) {
             console.log("error")
         } finally {
@@ -206,7 +202,11 @@ async function amazondata() {
         }
     }
 
-    main();
+    main().catch(console.error);
+    async function list(client) {
+        await client.db("azn").collection("amazon").deleteMany();
+        await client.db("azn").collection("amazon").insertMany(datas);
+    }
     await browser.close();
 }
 amazondata();
