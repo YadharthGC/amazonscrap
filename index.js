@@ -20,7 +20,7 @@ app.use(express.json());
 
 
 async function amazondata() {
-
+    const client = new MongoClient(url);
     var browser = await puppeteer.launch();
     var page = await browser.newPage();
     await page.goto("https://www.amazon.in/s?k=mens+casual+shirt+shorts+trousers&rh=p_85%3A10440599031%2Cpct-off-with-tax%3A50-&s=apparels&hidden-keywords=-belt-brace-jewellery-accessory-accessorie-shoe-sock-women-girl-boy-kid-formal&pf_rd_i=7459781031&pf_rd_m=A1VBAL9TL5WCBF&pf_rd_p=daf158dd-7003-4b50-bf0f-c2b37cfcc607&pf_rd_r=3QGJKQ6A2EEPKQGBV7C3&pf_rd_s=merchandised-search-7&qid=1630044462&ref=sr_pg_1");
@@ -191,15 +191,20 @@ async function amazondata() {
     //  mongodb
 
     async function main() {
-        let dbName = "amazon"
-        let client = await MongoClient.connect(url)
-        await client.connect();
-        console.log('Connected successfully to server');
-        const db = client.db(dbName);
-        const collection = db.collection('azn');
-        await collection.deleteMany({})
-        const insertResult = await collection.insertMany(datas);
-        client.close()
+        try {
+            let dbName = "amazon"
+            let client = await MongoClient.connect(url)
+            await client.connect();
+            console.log('Connected successfully to server');
+            const db = client.db(dbName);
+            const collection = db.collection('azn');
+            await collection.deleteMany({})
+            const insertResult = await collection.insertMany(datas);
+        } catch (error) {
+            console.log("error")
+        } finally {
+            client.close()
+        }
     }
 
     main();
