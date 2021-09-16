@@ -1,12 +1,12 @@
 const {
     MongoClient
 } = require("mongodb")
+const fs = require("fs/promises");
 const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const PORT = process.env.port || 4000;
-const MONGO_URI = process.env.DB;
+const PORT = process.env.port || 4000
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -194,7 +194,7 @@ async function amazondata() {
 
     try {
         await client.connect();
-        await list(client)
+        await list(client, [...datas])
         console.log('Connected successfully to server');
     } catch (error) {
         console.log("error")
@@ -207,9 +207,11 @@ async function amazondata() {
 }
 amazondata().catch(console.error);
 
-async function list(client) {
-    await client.db("azn").collection("amazon").insertMany(datas);
-    // await client.db("azn").collection("amazon").remove({});
+async function list(client, datas) {
+    await client.db("azn").collection("amazon").deleteMany({});
+    const insert = await client.db("azn").collection("amazon").insertMany(datas);
+
+    console.log("working");
 }
 
 app.listen(PORT, function() {
