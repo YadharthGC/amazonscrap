@@ -214,6 +214,24 @@ async function list(client, datas) {
     console.log("working");
 }
 
+app.get("/", async function(req, res) {
+    try {
+        //connceting db
+        let client = await MongoClient.connect(url)
+            //select db
+        let db = client.db("azn")
+            //select collection and perform action
+        let data = await db.collection("amazon").find({}).toArray();
+        //close connection
+        await client.close();
+        res.json(data)
+    } catch (error) {
+        res.status(500).json({
+            message: "didn't get it"
+        })
+    }
+})
+
 app.listen(PORT, function() {
     console.log(`App is runnning Successfully in port ${PORT} ! `)
 })
