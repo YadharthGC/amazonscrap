@@ -1,7 +1,6 @@
 const {
     MongoClient
 } = require("mongodb")
-const fs = require("fs/promises");
 const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
@@ -34,9 +33,7 @@ async function amazondata() {
             return price.map((x) => x.textContent);
         }
     );
-    //creating txt file to check
-    await fs.writeFile("prices.txt", prices.join("\r\n"))
-        //converting prices array into tprices object
+    //converting prices array into tprices object
     var tprices = (Object.assign({}, prices));
     //separating each element in the object into separate object
     const splitprices = rs => {
@@ -61,9 +58,7 @@ async function amazondata() {
             return name.map((x) => x.textContent);
         }
     );
-    //creating txt file to check
-    await fs.writeFile("names.txt", names.join("\r\n"))
-        //converting names array into tnames object
+    //converting names array into tnames object
     var tnames = (Object.assign({}, names));
     //separating each element in the object into separate object
     const splitnames = obj => {
@@ -88,9 +83,7 @@ async function amazondata() {
             return type.map((x) => x.textContent);
         }
     );
-    //creating txt file to check
-    await fs.writeFile("types.txt", types.join("\r\n"))
-        //converting type array into treviews object
+    //converting type array into treviews object
     var ttypes = (Object.assign({}, types));
     //separating each element in the object into separate object
     const splittypes = robj => {
@@ -128,9 +121,7 @@ async function amazondata() {
             offersx[n] = offers[i];
         }
     }
-    //creating txt file to check
-    await fs.writeFile("offers.txt", offersx.join("\r\n"))
-        //converting reviews array into toffers object
+    //converting reviews array into toffers object
     var toffers = (Object.assign({}, offersx));
     //separating each element in the object into separate object
     const splitoffers = sobj => {
@@ -155,9 +146,7 @@ async function amazondata() {
             return src.map((x) => x.src);
         }
     );
-    //creating txt file to check
-    await fs.writeFile("srcs.txt", srcs.join("\r\n"))
-        //converting reviews array into toffers object
+    //converting reviews array into toffers object
     var tsrcs = (Object.assign({}, srcs));
     //separating each element in the object into separate object
     const splitsrcs = iobj => {
